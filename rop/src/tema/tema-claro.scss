@@ -1,0 +1,345 @@
+/*
+  R.O.P. | Tema claro OPCIONAL.
+  Não altera o DOM nem as medidas existentes. O site original é o modo escuro.
+  Carregado após os SCSS antigos pelo src/index.js.
+  Os seletores começam em html[data-rop-theme="light"] para não afetar o modo escuro.
+*/
+html[data-rop-theme="light"] {
+  color-scheme: light;
+  --rop-fundo: #f8f7f1;
+  --rop-fundo-alt: #eff2e9;
+  --rop-papel: #fffefa;
+  --rop-titulo: #173a2d;
+  --rop-texto: #25433a;
+  --rop-muted: #5a7268;
+  --rop-borda: #d6dfd2;
+  --rop-acento: #a96b00;
+  --rop-sombra: 0 8px 28px rgba(29, 62, 46, .07);
+
+  body, #root, .pagina-transicao { background: var(--rop-fundo); color: var(--rop-texto); }
+  .app-corpo { background: var(--rop-fundo); color: var(--rop-texto); }
+
+  // Cabeçalho e faixa de TCC: mantém os tamanhos e a posição.
+  .comp-cabecalho { color: var(--rop-titulo); }
+  .comp-cabecalho .comp-corpo,
+  .comp-cabecalho.rolou .comp-corpo {
+    background: rgba(255, 254, 249, .98);
+    border-bottom-color: var(--rop-borda);
+  }
+  .comp-cabecalho .comp-link { color: #244239; }
+  .comp-cabecalho .comp-logo img { filter: brightness(.46) sepia(.4) saturate(1.6) hue-rotate(72deg); }
+  .comp-cabecalho .comp-link:hover { color: #09552b; }
+  .comp-cabecalho .comp-aviso {
+    background: #edf3df;
+    border-bottom-color: #d6dfb2;
+    color: #405d33;
+  }
+  .comp-cabecalho .comp-aviso b { color: #274c24; }
+  .comp-cabecalho .comp-doe { background: #f8df98; border-color: #d6ad45; color: #2d2a12; }
+  .comp-cabecalho .comp-doe .icone-coracao { filter: brightness(0) saturate(100%) invert(15%) sepia(11%) saturate(1995%) hue-rotate(99deg) brightness(97%) contrast(93%); }
+  .perfil-botao { color: #42613a; border-color: #b9cca9; background: #f5f7e9; }
+  .perfil-botao:hover { background: #edf4d9; }
+
+  // Início: foto do carrossel original continua com texto branco,
+  // mas as seções abaixo da imagem passam ao fundo claro.
+  .corpo-inicio { background: var(--rop-fundo); }
+  .corpo-inicio .impactos,
+  .corpo-inicio .projetos,
+  .corpo-inicio .parceiros {
+    background: var(--rop-fundo); color: var(--rop-texto);
+  }
+  .corpo-inicio .apresentacao,
+  .corpo-inicio .animais,
+  .corpo-inicio .santuarios,
+  .corpo-inicio .eden-das-asas,
+  .corpo-inicio .apadrinhe {
+    background: var(--rop-fundo-alt); color: var(--rop-texto);
+  }
+  .corpo-inicio .impactos__painel,
+  .corpo-inicio .projetos__card,
+  .corpo-inicio .apresentacao__card,
+  .corpo-inicio .santuarios__card,
+  .corpo-inicio .parceiros__card {
+    background: var(--rop-papel);
+    border-color: var(--rop-borda);
+    box-shadow: var(--rop-sombra);
+  }
+  .corpo-inicio .impactos__item { border-color: var(--rop-borda); }
+  .corpo-inicio .impactos__titulo,
+  .corpo-inicio .apresentacao__titulo,
+  .corpo-inicio .projetos__titulo,
+  .corpo-inicio .apadrinhe__titulo,
+  .corpo-inicio .animais__titulo,
+  .corpo-inicio .santuarios__titulo,
+  .corpo-inicio .parceiros__titulo,
+  .corpo-inicio .eden-das-asas h2,
+  .corpo-inicio .parceiros__nome,
+  .corpo-inicio .projetos__informacoes h3,
+  .corpo-inicio .apresentacao__card strong {
+    color: var(--rop-titulo);
+  }
+  .corpo-inicio .impactos__numero { color: #17613b; }
+  .corpo-inicio .impactos__descricao,
+  .corpo-inicio .apresentacao__textos p,
+  .corpo-inicio .apresentacao__card span,
+  .corpo-inicio .projetos__aviso,
+  .corpo-inicio .projetos__informacoes p,
+  .corpo-inicio .apadrinhe__textos p,
+  .corpo-inicio .animais__descricao,
+  .corpo-inicio .animais__nota,
+  .corpo-inicio .santuarios__descricao,
+  .corpo-inicio .santuarios__texto,
+  .corpo-inicio .parceiros__descricao,
+  .corpo-inicio .parceiros__texto,
+  .corpo-inicio .eden-das-asas__descricao,
+  .corpo-inicio .eden-das-asas__frase {
+    color: var(--rop-muted);
+  }
+  .corpo-inicio .apresentacao__textos strong,
+  .corpo-inicio .apadrinhe__textos strong,
+  .corpo-inicio .santuarios__link { color: var(--rop-titulo); }
+  .corpo-inicio .apresentacao__botao { color: #815000; }
+  .corpo-inicio .apresentacao__botao:hover { color: #17251d; }
+  .corpo-inicio .projetos__imagem::after {
+    background: linear-gradient(to top, rgba(255,254,250,.97), rgba(255,254,250,.22) 25%, transparent 65%);
+  }
+  // Os cartões de fotos da fauna mantêm a legenda branca sobre a foto.
+  .corpo-inicio .animais__card { border-color: #c7d6c8; }
+  .corpo-inicio .animais__especie { color: #ffd171; }
+  .corpo-inicio .santuarios__logo { background: #ebf1e9; }
+  .corpo-inicio .eden-das-asas__frase { color: #95661d; }
+
+  // Modais do Início — alteram superfície, não disposição interna.
+  .corpo-inicio .animais__modal,
+  .corpo-inicio .animais__modal-conteudo,
+  .corpo-inicio .santuarios__modal {
+    background: var(--rop-papel); color: var(--rop-texto); border-color: var(--rop-borda);
+  }
+  .corpo-inicio .animais__modal-titulo,
+  .corpo-inicio .santuarios__modal h2 { color: var(--rop-titulo); }
+  .corpo-inicio .animais__modal-texto,
+  .corpo-inicio .animais__modal-nota,
+  .corpo-inicio .santuarios__modal p { color: var(--rop-muted); }
+
+  // Espécies: filtros, cartões, favoritos e modal.
+  .especies-corpo { background: var(--rop-fundo); color: var(--rop-texto); }
+  .especies-corpo h1,
+  .especies-corpo .especie-titulo-linha h2,
+  .especies-corpo .especie-nome,
+  .especies-corpo .especie-modal h2 { color: var(--rop-titulo); }
+  .especies-corpo .subtitle,
+  .especies-corpo .flt,
+  .especies-corpo .especie-cientifico,
+  .especies-corpo .especie-grupo,
+  .especies-corpo .especie-contagem,
+  .especies-corpo .especie-situacao,
+  .especies-corpo .especie-modal-descricao,
+  .especies-corpo .especie-modal-cientifico,
+  .especies-corpo .especie-modal-categorias,
+  .especies-corpo .especie-modal-detalhes small { color: var(--rop-muted); }
+  .especies-corpo .card-pesquisa,
+  .especies-corpo .especie-card,
+  .especies-corpo .busca-sugestoes,
+  .especies-corpo .especie-modal,
+  .especies-corpo .especie-modal-detalhes > div {
+    background: var(--rop-papel); color: var(--rop-texto); border-color: var(--rop-borda);
+  }
+  .especies-corpo .bots .ani button {
+    background: #f7f8f2; color: var(--rop-titulo); border-color: #c2d3c1;
+  }
+  .especies-corpo .bots .ani button:hover { background: #e8efdf; }
+  .especies-corpo .bots .ani button.ativo { background: #edaa30; color: #1e2b1e; border-color: #edaa30; }
+  .especies-corpo .in,
+  .especies-corpo .busca-sugestao { background: #fff; color: var(--rop-texto); border-color: var(--rop-borda); }
+  .especies-corpo .in input { color: var(--rop-titulo); }
+  .especies-corpo .in input::placeholder { color: #77897e; }
+  .especies-corpo .especie-erro,
+  .especies-corpo .especie-sem-resultados { color: var(--rop-muted); border-color: var(--rop-borda); }
+  .especies-corpo .especie-sem-foto { background: #e5eee5; color: #526f59; }
+  .especies-corpo .especie-modal-fechar { background: #e8eee7; color: var(--rop-titulo); border-color: var(--rop-borda); }
+  .especies-corpo .especie-modal-detalhes strong { color: var(--rop-titulo); }
+  .especies-corpo .especie-modal-alerta { background: #fff1ed; border-color: #e3bfb8; }
+  .especies-corpo .especie-modal-alerta strong { color: #9e342e; }
+  .especies-corpo .especie-modal-alerta p { color: #795b57; }
+  .especies-corpo .especie-favoritar { background: rgba(255,255,250,.93); color: #805f21; border-color: #d5dac8; }
+  .especies-corpo .especie-favoritar[aria-pressed="true"] { color: #b76b16; }
+  .especies-corpo .graficos-especies .grafico-card { background: var(--rop-papel); border-color: var(--rop-borda); }
+  .especies-corpo .graficos-especies .grafico-card h3 { color: var(--rop-titulo); }
+  .especies-corpo .graficos-especies .grafico-vazio,
+  .especies-corpo .grafico-aviso,
+  .especies-corpo .graficos-especies .grafico-legenda { color: var(--rop-muted); }
+  .especies-corpo .graficos-especies .recharts-cartesian-axis-tick text,
+  .especies-corpo .graficos-especies .recharts-legend-item-text { fill: var(--rop-muted); color: var(--rop-muted); }
+
+  // Notícias: preserva o carrossel original e clareia o conteúdo abaixo.
+  .pagina-noticias {
+    --fundo: var(--rop-fundo);
+    --fundo-2: #edf2e8;
+    --verde: #e9f0e6;
+    --verde-2: #e1e9dc;
+    --verde-3: #d7e2d4;
+    --texto: var(--rop-texto);
+    --texto-suave: var(--rop-muted);
+    --borda: var(--rop-borda);
+    background: var(--rop-fundo); color: var(--rop-texto);
+  }
+  .pagina-noticias .noticias-pesquisa,
+  .pagina-noticias .noticia-card { background: var(--rop-papel); border-color: var(--rop-borda); box-shadow: var(--rop-sombra); }
+  .pagina-noticias .noticias-contagem,
+  .pagina-noticias .noticias-campo > span,
+  .pagina-noticias .noticia-card__descricao,
+  .pagina-noticias .noticia-card__meta time,
+  .pagina-noticias .noticia-detalhes p { color: var(--rop-muted); }
+  .pagina-noticias .noticias-campo input,
+  .pagina-noticias .noticias-campo select,
+  .pagina-noticias .noticias-campo select option {
+    background: #fff; color: var(--rop-titulo); border-color: var(--rop-borda); color-scheme: light;
+  }
+  .pagina-noticias .noticias-campo input::placeholder { color: #718579; }
+  .pagina-noticias .noticia-imagem-vazia { background: #e7eee5; }
+  .pagina-noticias .noticia-imagem-vazia span { color: #849c87; }
+  .pagina-noticias .noticia-detalhes { border-top-color: var(--rop-borda); }
+  // No hero, conservar texto branco para contraste contra as fotografias.
+  .pagina-noticias .noticias-hero { color: #fff; }
+  .pagina-noticias .noticias-hero__title { color: #fff; }
+
+  // Orientações.
+  .orientacoes-pagina,
+  .orientacoes-main { background: var(--rop-fundo); color: var(--rop-texto); }
+  .orientacoes-container h1,
+  .orientacoes-painel h2,
+  .orientacoes-revista-conteudo h3 { color: var(--rop-titulo); }
+  .orientacoes-painel,
+  .orientacoes-revista { background: var(--rop-papel); border-color: var(--rop-borda); box-shadow: var(--rop-sombra); }
+  .orientacoes-revista-capa,
+  .orientacoes-revista-sem-capa { background: #e7eee5; color: var(--rop-titulo); border-color: var(--rop-borda); }
+  .orientacoes-introducao,
+  .orientacoes-painel > p,
+  .orientacoes-revista-conteudo > p,
+  .orientacoes-aviso p,
+  .orientacoes-nota { color: var(--rop-muted); }
+  .orientacoes-aviso { background: #edf3e8; color: var(--rop-texto); border-color: var(--rop-borda); }
+  .orientacoes-aviso strong { color: var(--rop-titulo); }
+
+  // Loja.
+  .loja {
+    --bg-body: var(--rop-fundo);
+    --bg-card: var(--rop-papel);
+    --border-card: var(--rop-borda);
+    --text-main: var(--rop-texto);
+    --text-muted: var(--rop-muted);
+    --accent-blue: #e6efe6;
+  }
+  .loja .cartao-produto,
+  .loja .faixa-impacto { box-shadow: var(--rop-sombra); }
+  .loja h1, .loja h2, .loja h3 { color: var(--rop-titulo); }
+  .loja .botao-pequeno { color: #2b2b13; }
+
+  // Doações: troca só as superfícies e a cor da tipografia.
+  .doe-corpo { background: var(--rop-fundo); }
+  .doe-main {
+    --doe-fundo: var(--rop-fundo);
+    --doe-painel: var(--rop-papel);
+    --doe-linha: var(--rop-borda);
+    --doe-texto: var(--rop-texto);
+    --doe-secundario: var(--rop-muted);
+    --doe-azul: #315c53;
+  }
+  .doe-main .doe-hero { background: #eef2e8; }
+  .doe-main .doe-hero__conteudo { color: var(--rop-titulo); }
+  .doe-main .doe-cartao,
+  .doe-main .doe-faq__lista,
+  .doe-main .doe-faq__lista details,
+  .doe-main .doe-recebedor,
+  .doe-main .doe-transparencia,
+  .doe-main .doe-apoio { background: var(--rop-papel); color: var(--rop-texto); border-color: var(--rop-borda); }
+  .doe-main .doe-campo-valor,
+  .doe-main input,
+  .doe-main textarea { color: var(--rop-texto); background-color: #fff; border-color: var(--rop-borda); }
+  .doe-main .doe-pix,
+  .doe-main .doe-chave,
+  .doe-main .doe-codigo,
+  .doe-main .doe-passos,
+  .doe-main .doe-faq { background-color: var(--rop-papel); color: var(--rop-texto); border-color: var(--rop-borda); }
+  .doe-main .doe-secao-topo h2,
+  .doe-main .doe-texto h2,
+  .doe-main .doe-final h2 { color: var(--rop-titulo); }
+  .doe-main input::placeholder,
+  .doe-main textarea::placeholder { color: #73867a; }
+
+  // Login, Registro e Recuperação — estrutura de duas colunas preservada.
+  .rop-login {
+    --fundo: var(--rop-fundo);
+    --texto: var(--rop-texto);
+    --suave: var(--rop-muted);
+    background: var(--rop-fundo); color: var(--rop-texto);
+  }
+  .rop-login .rop-login__painel { background: var(--rop-fundo); }
+  .rop-login h2,
+  .rop-login .rop-login__painel label { color: var(--rop-titulo); }
+  .rop-login .rop-login__campo { background: #fff; border-color: var(--rop-borda); }
+  .rop-login .rop-login__campo input { color: var(--rop-titulo); }
+  .rop-login .rop-login__campo input::placeholder { color: #87958b; }
+  .rop-login .rop-login__campo input:-webkit-autofill {
+    -webkit-text-fill-color: var(--rop-titulo);
+    box-shadow: 0 0 0 1000px #fff inset;
+  }
+  .rop-login .rop-login__ver-senha { color: #527467; }
+  .rop-login .rop-login__entrar { color: #182315; }
+  .rop-login .rop-login__sobretitulo,
+  .rop-login .rop-login__cadastro a,
+  .rop-login .rop-login__linha-senha a { color: #996000; }
+  .rop-login .rop-login__cadastro { border-top-color: var(--rop-borda); }
+  .rop-login .rop-login__rodape,
+  .rop-login .rop-login__explorar { color: var(--rop-muted); }
+  .rop-registro .rop-registro__grupo > label { color: var(--rop-titulo); }
+  .rop-registro .rop-registro__dica,
+  .rop-recuperacao .rop-recuperacao__dica,
+  .rop-recuperacao .rop-recuperacao__mostrar { color: var(--rop-muted); }
+  .rop-recuperacao .rop-recuperacao__mensagem { background: #e9f7ed; color: #246345; border-color: #a7d5b2; }
+  .rop-recuperacao .rop-recuperacao__mensagem p { color: #246345; }
+  .rop-login .rop-login__erro { color: #a52c2c; }
+  // Mantém branca a legenda sobre a imagem da coluna esquerda.
+  .rop-login .rop-login__visual,
+  .rop-login .rop-login__visual h1,
+  .rop-login .rop-login__visual p { color: #fff; }
+
+  // Perfil: painel é renderizado no <body> (portal), por isso o tema é no <html>.
+  .perfil-painel,
+  .perfil-conteudo { background: var(--rop-fundo); color: var(--rop-texto); }
+  .perfil-topo { background: #e9f0e8; border-bottom-color: var(--rop-borda); }
+  .perfil-topo-texto h2,
+  .perfil-nome,
+  .perfil-secao-titulo,
+  .perfil-item strong,
+  .perfil-favoritos-info strong { color: var(--rop-titulo); }
+  .perfil-identidade,
+  .perfil-item,
+  .perfil-edicao,
+  .perfil-seguranca,
+  .perfil-favoritos-item { background: var(--rop-papel); color: var(--rop-texto); border-color: var(--rop-borda); }
+  .perfil-descricao,
+  .perfil-nota,
+  .perfil-favoritos-descricao,
+  .perfil-favoritos-info small { color: var(--rop-muted); }
+  .perfil-topo-texto p,
+  .perfil-voltar,
+  .perfil-item small { color: var(--rop-muted); }
+  .perfil-painel .perfil-identidade-brilho { opacity: .08; }
+  .perfil-painel .perfil-favoritos-explorar { background: #ecf2e6; color: #2e623c; border-color: var(--rop-borda); }
+  .perfil-painel input { background-color: #fff; color: var(--rop-titulo); border-color: var(--rop-borda); }
+  .perfil-painel input::placeholder { color: #73867a; }
+  .perfil-fundo { background: rgba(20, 35, 27, .46); }
+
+  // Rodapé e área final: preserva colunas, links e espaçamentos.
+  .rodape { background: #f0f2e9; color: var(--rop-texto); }
+  .rodape .rodape-conteudo { background: #f0f2e9; }
+  .rodape .destaque { background: #dfe9db; border-color: var(--rop-borda); }
+  .rodape .destaque-titulo,
+  .rodape .coluna-titulo,
+  .rodape .marca-cabecalho { color: var(--rop-titulo); }
+  .rodape .marca-descricao,
+  .rodape .lista-links a,
+  .rodape .rodape-base { color: var(--rop-muted); }
+  .rodape .rodape-base { border-top-color: var(--rop-borda); }
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import PerfilUsuario from "../perfilUsuario/perfilUsuario.jsx";
+import BotaoTema from "../botaoTema/BotaoTema.jsx";
 import { HashLink } from "react-router-hash-link";
 
 import "./cabecalho.scss";
@@ -91,6 +92,7 @@ function Cabecalho() {
           </nav>
 
           <div className="comp-acoes">
+    <BotaoTema />
     <PerfilUsuario />
 
             <div className="comp-doe-div">

@@ -1,0 +1,73 @@
+// Somente o botão novo. Não modifica largura, altura ou composição do cabeçalho.
+.comp-cabecalho .comp-tema {
+  position: relative;
+  display: inline-block;
+  flex: 0 0 74px;
+  width: 74px;
+  height: 37px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid rgba(248, 248, 238, .54);
+  border-radius: 999px;
+  background-color: #0b1b36;
+  background-image: url('/assets/img/tema/noite.webp');
+  background-position: center;
+  background-size: cover;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.16);
+  cursor: pointer;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-image .16s ease, border-color .2s ease;
+
+  &.comp-tema--claro {
+    background-color: #7eae5d;
+    background-image: url('/assets/img/tema/dia.webp');
+    border-color: #8ca67c;
+  }
+
+  &__indicador {
+    position: absolute;
+    top: 3px;
+    left: 39px;
+    display: grid;
+    place-items: center;
+    width: 29px;
+    height: 29px;
+    border-radius: 50%;
+    background: #d4e0fa;
+    color: #243c83;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, .36);
+    font-size: 22px;
+    font-family: Georgia, serif;
+    line-height: 1;
+    transition: left .22s ease, background-color .22s ease, color .22s ease;
+    pointer-events: none;
+  }
+
+  &--claro .comp-tema__indicador {
+    left: 3px;
+    background: #ffe08a;
+    color: #a36208;
+  }
+
+  &:focus-visible {
+    outline: 3px solid #ef9700;
+    outline-offset: 3px;
+  }
+}
+
+@media (max-width: 600px) {
+  .comp-cabecalho .comp-tema {
+    flex-basis: 58px;
+    width: 58px;
+    height: 34px;
+
+    &__indicador { top: 3px; left: 29px; width: 26px; height: 26px; font-size: 18px; }
+    &--claro .comp-tema__indicador { left: 3px; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .comp-cabecalho .comp-tema,
+  .comp-cabecalho .comp-tema__indicador { transition: none; }
+}

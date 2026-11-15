@@ -15,6 +15,14 @@ import Noticias from "./pages/noticias/noticias.jsx";
 import Registro from "./pages/registro/registro.jsx";
 import EsqueciSenha from "./pages/esqueciSenha/esqueciSenha.jsx";
 
+// Após os estilos das páginas, para o modo claro sobrescrever só as cores.
+import "./tema/tema-claro.scss";
+
+// Salva a preferência entre páginas/recarregamentos, mantendo escuro por padrão.
+let temaSalvo = 'escuro';
+try { temaSalvo = localStorage.getItem('rop-tema') || 'escuro'; } catch { /* storage bloqueado */ }
+document.documentElement.dataset.ropTheme = temaSalvo === 'claro' ? 'light' : 'dark';
+
 const root = ReactDOM.createRoot(
   document.getElementById("root")
 );
