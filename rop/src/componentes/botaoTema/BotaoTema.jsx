@@ -39,6 +39,7 @@ export default function BotaoTema() {
       type="button"
       className={`comp-tema ${claro ? 'comp-tema--claro' : 'comp-tema--escuro'}`}
       role="switch"
+      style={{ backgroundImage: `url("${process.env.PUBLIC_URL || ''}/assets/img/tema/${claro ? 'dia' : 'noite'}.webp")` }}
       aria-label="Modo claro"
       aria-checked={claro}
       title={claro ? 'Mudar para o modo escuro' : 'Mudar para o modo claro'}
