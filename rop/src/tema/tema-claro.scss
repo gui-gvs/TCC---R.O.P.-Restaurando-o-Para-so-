@@ -27,7 +27,7 @@ html[data-rop-theme="light"] {
     border-bottom-color: var(--rop-borda);
   }
   .comp-cabecalho .comp-link { color: #244239; }
-  .comp-cabecalho .comp-logo img { filter: brightness(.46) sepia(.4) saturate(1.6) hue-rotate(72deg); }
+  .comp-cabecalho .comp-logo img { filter: none; }
   .comp-cabecalho .comp-link:hover { color: #09552b; }
   .comp-cabecalho .comp-aviso {
     background: #edf3df;
