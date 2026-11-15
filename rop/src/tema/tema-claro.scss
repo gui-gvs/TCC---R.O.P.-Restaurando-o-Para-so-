@@ -342,4 +342,76 @@ html[data-rop-theme="light"] {
   .rodape .lista-links a,
   .rodape .rodape-base { color: var(--rop-muted); }
   .rodape .rodape-base { border-top-color: var(--rop-borda); }
+
+  // Correções de contraste: blocos que ainda usavam cores fixas do tema escuro.
+  // Somente cores, fundos e bordas; nenhuma mudança de posicionamento/tamanho.
+
+  // CTA de Educação Ambiental na página Espécies (exibido no print).
+  .especies-corpo .especie-guia {
+    background: #eaf1e6;
+    color: var(--rop-texto);
+    border-color: #c5d8c1;
+  }
+  .especies-corpo .especie-guia h2 { color: var(--rop-titulo); }
+  .especies-corpo .especie-guia p { color: var(--rop-muted); }
+  .especies-corpo .especie-guia-etiqueta { color: #906000; }
+  .especies-corpo .especie-guia-botao { color: #17251d; }
+
+  // Mensagens e coração favoritado também devem respeitar o modo claro.
+  .especies-corpo .especie-favoritos-aviso {
+    background: #eaf2e8;
+    color: var(--rop-texto);
+    border-color: #bcd4c2;
+  }
+  .especies-corpo .especie-favoritos-aviso a { color: #875500; }
+  .especies-corpo .especie-favoritar.ativo {
+    background: #fff5df;
+    color: #955800;
+    border-color: #dbaf64;
+  }
+
+  // Avisos da coleção de favoritos no painel do perfil.
+  .perfil-favoritos-status,
+  .perfil-favoritos-vazio {
+    background: #eaf2e8;
+    color: var(--rop-muted);
+    border-color: var(--rop-borda);
+  }
+  .perfil-favoritos-erro {
+    background: #fff0ed;
+    color: #9a3c33;
+    border-color: #e2bfb8;
+  }
+  .perfil-favoritos-remover {
+    background: #fff2df;
+    color: #79500f;
+    border-color: #ddb779;
+  }
+  .perfil-favoritos-remover:hover { background: #f8e8ca; }
+  .perfil-sair { color: #9c4435; }
+
+  // Alguns painéis da página Doações tinham fundos escuros explícitos.
+  .doe-main .doe-final {
+    background: var(--rop-papel);
+    color: var(--rop-texto);
+    border-color: var(--rop-borda);
+  }
+  .doe-main .doe-apoio h3,
+  .doe-main .doe-final h2 { color: var(--rop-titulo); }
+  .doe-main .doe-apoio p { color: var(--rop-muted); }
+  .doe-main .doe-apoio a { color: #805900; }
+  .doe-main .doe-faq__lista summary { color: var(--rop-texto); }
+  .doe-main .doe-faq__lista details[open] summary { color: #906000; }
+  .doe-main .doe-hero__notas span { color: var(--rop-muted); }
+
+  // Botões de fechar dos modais do Início sobre superfícies claras.
+  .corpo-inicio .animais__modal-fechar,
+  .corpo-inicio .santuarios__modal-fechar {
+    background: #e8efe7;
+    color: var(--rop-titulo);
+  }
+  .corpo-inicio .animais__modal-fechar:hover,
+  .corpo-inicio .santuarios__modal-fechar:hover {
+    background: #dae8d9;
+  }
 }
