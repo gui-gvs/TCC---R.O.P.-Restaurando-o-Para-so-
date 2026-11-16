@@ -82,7 +82,7 @@ export function formatarLocalizacao(localizacao) {
     const bairro = (localizacao.bairro || '').trim();
     const cidade = (localizacao.cidade || '').trim();
     const rua = (localizacao.rua || '').trim();
-    return bairro && cidade ? [rua, bairro, cidade].filter(Boolean).join(', ') : '';
+    return bairro ? [rua, bairro, cidade].filter(Boolean).join(', ') : '';
   }
   const coordenadas = localizacao.coordenadas;
   if (!coordenadas) return '';
