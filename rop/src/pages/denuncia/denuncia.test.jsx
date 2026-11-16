@@ -38,13 +38,15 @@ test('registra bairro e espécie selecionada pelo catálogo', async () => {
   render(<Denuncia />);
   fireEvent.change(await screen.findByLabelText('Bairro ou local de referência'), { target: { value: 'Bairro fictício' } });
   fireEvent.change(screen.getByLabelText('Cidade'), { target: { value: 'São Paulo' } });
-  fireEvent.change(screen.getByLabelText('Estado (UF)'), { target: { value: 'SP' } });
+  fireEvent.change(screen.getByLabelText('Nome da rua (se souber)'), { target: { value: 'Rua das Flores' } });
+  fireEvent.change(screen.getByLabelText(/Detalhes do local/), { target: { value: 'Perto do campo de futebol.' } });
   fireEvent.click(screen.getByRole('button', { name: 'Escolher espécie por foto' }));
   fireEvent.change(screen.getByLabelText('Pesquisar espécie'), { target: { value: 'tucano' } });
   fireEvent.click(screen.getByRole('button', { name: /Tucano-toco/ }));
   fireEvent.change(screen.getByLabelText('Estado do animal *'), { target: { value: 'Ferido' } });
   fireEvent.change(screen.getByLabelText('Descrição da ocorrência *'), { target: { value: 'Exemplo fictício de teste.' } });
   fireEvent.click(screen.getByRole('button', { name: /Registrar denúncia demonstrativa/ }));
-  expect(screen.getByText('Bairro fictício, São Paulo, SP')).toBeTruthy();
+  expect(screen.getByText('Rua das Flores, Bairro fictício, São Paulo')).toBeTruthy();
+  expect(screen.getByText(/Perto do campo de futebol/)).toBeTruthy();
   expect(screen.getByRole('img', { name: 'Imagem de referência da espécie' })).toBeTruthy();
 });

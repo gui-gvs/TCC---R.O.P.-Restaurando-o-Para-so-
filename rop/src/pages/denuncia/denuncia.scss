@@ -174,9 +174,9 @@ html[data-rop-theme="light"] .denuncia-pagina {
 }
 .denuncia-endereco {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 110px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
-  label:first-child { grid-column: 1 / -1; }
+  label:last-child { grid-column: 1 / -1; }
 }
 .denuncia-gps, .denuncia-catalogo {
   display: grid;
@@ -212,6 +212,7 @@ html[data-rop-theme="light"] .denuncia-pagina {
 .denuncia-especie-opcao span, .denuncia-especie-selecionada > div { display: grid; gap: 2px; min-width: 0; flex: 1; overflow-wrap: anywhere; }
 .denuncia-especie-opcao small, .denuncia-especie-selecionada small { font-size: .75rem; }
 @media (max-width: 480px) {
+  .denuncia-endereco { grid-template-columns: 1fr; }
   .denuncia-modos { gap: 5px; }
   .denuncia-modos label { font-size: .7rem; }
   .denuncia-filtros-especies { grid-template-columns: 1fr; }

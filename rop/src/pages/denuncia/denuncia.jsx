@@ -10,7 +10,7 @@ import { CampoLocalizacao, CampoEspecie, LOCALIZACAO_INICIAL } from './camposDen
 import './denuncia.scss';
 
 const API_URL = (process.env.REACT_APP_API_URL || 'http://localhost:5050').replace(/\/+$/, '');
-const INICIAL = { especie: '', especieId: '', especieImagem: '', localizacao: LOCALIZACAO_INICIAL, condicao: '', descricao: '', foto: '', acompanhar: true };
+const INICIAL = { especie: '', especieId: '', especieImagem: '', localizacao: LOCALIZACAO_INICIAL, detalhesLocal: '', condicao: '', descricao: '', foto: '', acompanhar: true };
 const CONDICOES = ['Ferido', 'Debilitado', 'Preso ou em risco', 'Filhote aparentemente abandonado', 'Suspeita de maus-tratos', 'Outro / Não identificado'];
 const formatarData = (valor) => new Date(valor).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
 
@@ -52,7 +52,7 @@ function LinhaDoTempo({ chamado, atualizar }) {
       </div>
       <div className="denuncia-animal">
         {(chamado.foto || chamado.especieImagem) && <img src={chamado.foto || chamado.especieImagem} alt={chamado.foto ? "Foto da ocorrência" : "Imagem de referência da espécie"} />}
-        <div><h3>{chamado.especie || 'Espécie não identificada'}</h3><p>{chamado.local}</p>{!chamado.foto && chamado.especieImagem && <small>Imagem de referência do catálogo, não da ocorrência.</small>}<small>{chamado.condicao} · {formatarData(chamado.criadoEm)}</small><p>{chamado.descricao}</p></div>
+        <div><h3>{chamado.especie || 'Espécie não identificada'}</h3><p>{chamado.local}</p>{chamado.detalhesLocal && <p><strong>Referências do local:</strong> {chamado.detalhesLocal}</p>}{!chamado.foto && chamado.especieImagem && <small>Imagem de referência do catálogo, não da ocorrência.</small>}<small>{chamado.condicao} · {formatarData(chamado.criadoEm)}</small><p>{chamado.descricao}</p></div>
       </div>
       <p className="denuncia-credito-linha">Crédito deste chamado: <strong>{saldo > 0 ? '+' : ''}{saldo}</strong> · {chamado.validacao === 'confirmada' ? 'Confirmada (simulação)' : chamado.validacao === 'falsa' ? 'Fraude intencional (simulação)' : chamado.validacao === 'inconclusiva' ? 'Inconclusiva, sem penalidade' : 'Aguardando validação'}</p>
       <ol className="denuncia-linha">
@@ -137,7 +137,7 @@ export default function Denuncia() {
   const resumo = resumoDenuncias(lista);
   const chamado = lista.find((item) => item.id === selecionado);
   const resultados = lista.filter((item) => (filtro === 'todos' || (filtro === 'ativos' && !finalizado(item)) || (filtro === 'encerrados' && finalizado(item)) || statusChamado(item) === filtro) &&
-    `${item.id} ${item.especie} ${item.local}`.toLocaleLowerCase('pt-BR').includes(busca.trim().toLocaleLowerCase('pt-BR')));
+    `${item.id} ${item.especie} ${item.local} ${item.detalhesLocal || ''}`.toLocaleLowerCase('pt-BR').includes(busca.trim().toLocaleLowerCase('pt-BR')));
 
   function persistir(proxima) {
     if (!usuario || !sessionStorage.getItem('rop_token')) return false;
@@ -159,9 +159,9 @@ export default function Denuncia() {
       setErro('Preencha a localidade, o estado do animal e a descrição.'); return;
     }
     const localizacao = form.localizacao.modo === 'bairro'
-      ? { modo: 'bairro', bairro: form.localizacao.bairro.trim(), cidade: form.localizacao.cidade.trim(), uf: form.localizacao.uf }
+      ? { modo: 'bairro', bairro: form.localizacao.bairro.trim(), cidade: form.localizacao.cidade.trim(), rua: form.localizacao.rua.trim() }
       : { modo: form.localizacao.modo, coordenadas: form.localizacao.coordenadas };
-    const novo = criarChamado({ ...form, local, localizacao, especie: form.especie.trim(), descricao: form.descricao.trim() });
+    const novo = criarChamado({ ...form, local, localizacao, detalhesLocal: form.detalhesLocal.trim(), especie: form.especie.trim(), descricao: form.descricao.trim() });
     if (persistir([novo, ...lista])) {
       setForm(INICIAL);
       setSelecionado(form.acompanhar ? novo.id : '');
@@ -171,7 +171,7 @@ export default function Denuncia() {
   }
 
   function exemplo() {
-    const novo = criarChamado({ especie: 'Tucano-toco', local: 'Área fictícia, São Paulo — SP', condicao: 'Ferido', descricao: 'Exemplo acadêmico de animal com dificuldade para voar.', foto: '/assets/img/pages/especies/aves/tucano-toco.webp', acompanhar: true });
+    const novo = criarChamado({ especie: 'Tucano-toco', local: 'Rua das Flores, Área fictícia, São Paulo', detalhesLocal: 'Perto de um campo, na esquina com a rua do Lago (exemplo fictício).', condicao: 'Ferido', descricao: 'Exemplo acadêmico de animal com dificuldade para voar.', foto: '/assets/img/pages/especies/aves/tucano-toco.webp', acompanhar: true });
     if (persistir([novo, ...lista])) { setSelecionado(novo.id); setAba('acompanhar'); setAviso('Exemplo fictício criado. Avance as etapas para demonstrar o acompanhamento.'); }
   }
 
@@ -222,6 +222,7 @@ export default function Denuncia() {
               <form className="denuncia-card denuncia-form" onSubmit={registrar}>
                 <h2>Novo chamado</h2><p>Preencha os dados da ocorrência. Não se aproxime do animal para obter fotos.</p>
                 <CampoLocalizacao valor={form.localizacao} onChange={(valor) => campo('localizacao', valor)} />
+                <label>Detalhes do local (opcional)<textarea maxLength={500} rows={3} value={form.detalhesLocal} onChange={(e) => campo('detalhesLocal', e.target.value)} placeholder="Ex.: Na esquina com a Rua do Lago, perto de um campo de futebol ou ao lado de uma ponte." /><small>{form.localizacao.modo === 'aproximada' ? 'Informe apenas referências gerais se quiser preservar a localização exata.' : 'Descreva pontos de referência que ajudem a encontrar a ocorrência.'}</small></label>
                 <CampoEspecie nome={form.especie} id={form.especieId} onChange={(campos) => setForm((atual) => ({ ...atual, ...campos }))} />
                 <label>Estado do animal *<select required value={form.condicao} onChange={(e) => campo('condicao', e.target.value)}><option value="">Selecione a condição</option>{CONDICOES.map((condicao) => <option key={condicao}>{condicao}</option>)}</select></label>
                 <label>Descrição da ocorrência *<textarea required maxLength={1200} rows={4} value={form.descricao} onChange={(e) => campo('descricao', e.target.value)} placeholder="Descreva o que observou." /></label>

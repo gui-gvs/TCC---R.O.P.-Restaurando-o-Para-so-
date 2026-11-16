@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ANIMAIS_TESTE, GRUPOS, normalizarTexto } from '../especies/dadosEspecies.js';
 import { coordenadasDaPosicao, formatarLocalizacao } from '../../utils/denuncias.js';
 
-export const LOCALIZACAO_INICIAL = { modo: 'bairro', bairro: '', cidade: '', uf: '', coordenadas: null };
-const UFS = ['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'];
+export const LOCALIZACAO_INICIAL = { modo: 'bairro', bairro: '', cidade: '', rua: '', coordenadas: null };
 
 export function CampoLocalizacao({ valor, onChange }) {
   const [buscando, setBuscando] = useState(false);
@@ -59,7 +58,7 @@ export function CampoLocalizacao({ valor, onChange }) {
         <div className="denuncia-endereco">
           <label>Bairro ou local de referência<input required maxLength={100} value={valor.bairro} onChange={(e) => onChange({ ...valor, bairro: e.target.value })} placeholder="Ex.: Parelheiros" /></label>
           <label>Cidade<input required maxLength={80} value={valor.cidade} onChange={(e) => onChange({ ...valor, cidade: e.target.value })} placeholder="Ex.: São Paulo" /></label>
-          <label>Estado (UF)<select required value={valor.uf} onChange={(e) => onChange({ ...valor, uf: e.target.value })}><option value="">Selecione</option>{UFS.map((uf) => <option key={uf}>{uf}</option>)}</select></label>
+          <label>Nome da rua (se souber)<input maxLength={150} value={valor.rua} onChange={(e) => onChange({ ...valor, rua: e.target.value })} placeholder="Ex.: Rua das Flores" /></label>
         </div>
       ) : (
         <div className="denuncia-gps">

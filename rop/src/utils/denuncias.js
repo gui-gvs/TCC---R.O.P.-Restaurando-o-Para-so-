@@ -79,8 +79,10 @@ export function coordenadasDaPosicao(posicao, modo) {
 export function formatarLocalizacao(localizacao) {
   if (!localizacao) return '';
   if (localizacao.modo === 'bairro') {
-    const partes = [localizacao.bairro, localizacao.cidade, localizacao.uf].map((parte) => (parte || '').trim());
-    return partes.every(Boolean) ? partes.join(', ') : '';
+    const bairro = (localizacao.bairro || '').trim();
+    const cidade = (localizacao.cidade || '').trim();
+    const rua = (localizacao.rua || '').trim();
+    return bairro && cidade ? [rua, bairro, cidade].filter(Boolean).join(', ') : '';
   }
   const coordenadas = localizacao.coordenadas;
   if (!coordenadas) return '';
