@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ANIMAIS_TESTE, GRUPOS, normalizarTexto } from '../especies/dadosEspecies.js';
 import { coordenadasDaPosicao, formatarLocalizacao } from '../../utils/denuncias.js';
 
-export const LOCALIZACAO_INICIAL = { modo: 'bairro', bairro: '', cidade: '', rua: '', coordenadas: null };
+export const LOCALIZACAO_INICIAL = { modo: 'bairro', bairro: '', rua: '', coordenadas: null };
 
 export function CampoLocalizacao({ valor, onChange }) {
   const [buscando, setBuscando] = useState(false);
@@ -57,7 +57,6 @@ export function CampoLocalizacao({ valor, onChange }) {
       {valor.modo === 'bairro' ? (
         <div className="denuncia-endereco">
           <label>Bairro ou local de referência<input required maxLength={100} value={valor.bairro} onChange={(e) => onChange({ ...valor, bairro: e.target.value })} placeholder="Ex.: Parelheiros" /></label>
-          <label>Cidade<input required maxLength={80} value={valor.cidade} onChange={(e) => onChange({ ...valor, cidade: e.target.value })} placeholder="Ex.: São Paulo" /></label>
           <label>Nome da rua (se souber)<input maxLength={150} value={valor.rua} onChange={(e) => onChange({ ...valor, rua: e.target.value })} placeholder="Ex.: Rua das Flores" /></label>
         </div>
       ) : (
