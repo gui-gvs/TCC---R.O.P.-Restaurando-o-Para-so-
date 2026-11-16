@@ -141,3 +141,79 @@ html[data-rop-theme="light"] .denuncia-pagina {
   .denuncia-animal { flex-direction: column; }
   .denuncia-animal img { width: 100%; height: 180px; }
 }
+
+.denuncia-campo-extra {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  display: grid;
+  min-width: 0;
+  gap: 10px;
+  legend { color: var(--d-text); font-size: .86rem; font-weight: 600; padding: 0; margin-bottom: 10px; }
+}
+.denuncia-modos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+  label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    min-height: 45px;
+    padding: 8px 5px;
+    background: var(--d-field);
+    border: 1px solid var(--d-line);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: .78rem;
+    text-align: center;
+  }
+  label.escolhido { border-color: var(--d-accent); color: var(--d-accent); }
+  input[type="radio"] { width: 15px; height: 15px; margin: 0; flex-shrink: 0; accent-color: var(--d-primary); }
+}
+.denuncia-endereco {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 110px;
+  gap: 10px;
+  label:first-child { grid-column: 1 / -1; }
+}
+.denuncia-gps, .denuncia-catalogo {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  background: var(--d-field);
+  border: 1px solid var(--d-line);
+  border-radius: 10px;
+}
+.denuncia-gps p, .denuncia-gps small { font-size: .82rem; }
+.denuncia-local-confirmado { display: grid; gap: 5px; padding: 12px; border: 1px solid var(--d-accent); border-radius: 8px; overflow-wrap: anywhere; }
+.denuncia-main button.denuncia-link { border: 0; background: transparent; padding: 4px 0; text-align: left; cursor: pointer; font: inherit; font-size: .82rem; font-weight: 600; }
+.denuncia-filtros-especies { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .65fr); gap: 8px; }
+.denuncia-lista-especies { max-height: 350px; overflow: auto; display: grid; grid-template-columns: 1fr; gap: 7px; padding: 3px 5px 3px 3px; }
+.denuncia-especie-opcao, .denuncia-especie-selecionada {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  min-width: 0;
+  text-align: left;
+  background: var(--d-card);
+  border: 1px solid var(--d-line);
+  color: var(--d-text);
+  border-radius: 8px;
+  padding: 8px;
+  font: inherit;
+  font-size: .86rem;
+}
+.denuncia-especie-opcao { cursor: pointer; }
+.denuncia-especie-opcao:hover, .denuncia-especie-opcao[aria-pressed="true"] { border-color: var(--d-accent); }
+.denuncia-especie-opcao img, .denuncia-especie-selecionada img { width: 82px; height: 64px; flex: 0 0 82px; object-fit: cover; border-radius: 6px; }
+.denuncia-especie-opcao span, .denuncia-especie-selecionada > div { display: grid; gap: 2px; min-width: 0; flex: 1; overflow-wrap: anywhere; }
+.denuncia-especie-opcao small, .denuncia-especie-selecionada small { font-size: .75rem; }
+@media (max-width: 480px) {
+  .denuncia-modos { gap: 5px; }
+  .denuncia-modos label { font-size: .7rem; }
+  .denuncia-filtros-especies { grid-template-columns: 1fr; }
+  .denuncia-especie-opcao img, .denuncia-especie-selecionada img { width: 64px; height: 60px; flex-basis: 64px; }
+}

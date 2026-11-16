@@ -32,3 +32,19 @@ test('usuário registra exemplo, avança e filtra o histórico', async () => {
   fireEvent.change(screen.getByLabelText('Estado do chamado'), { target: { value: 'Recebida' } });
   await waitFor(() => expect(screen.getByText('Nenhum chamado encontrado.')).toBeTruthy());
 });
+
+test('registra bairro e espécie selecionada pelo catálogo', async () => {
+  sessionStorage.setItem('rop_token', 'token-teste');
+  render(<Denuncia />);
+  fireEvent.change(await screen.findByLabelText('Bairro ou local de referência'), { target: { value: 'Bairro fictício' } });
+  fireEvent.change(screen.getByLabelText('Cidade'), { target: { value: 'São Paulo' } });
+  fireEvent.change(screen.getByLabelText('Estado (UF)'), { target: { value: 'SP' } });
+  fireEvent.click(screen.getByRole('button', { name: 'Escolher espécie por foto' }));
+  fireEvent.change(screen.getByLabelText('Pesquisar espécie'), { target: { value: 'tucano' } });
+  fireEvent.click(screen.getByRole('button', { name: /Tucano-toco/ }));
+  fireEvent.change(screen.getByLabelText('Estado do animal *'), { target: { value: 'Ferido' } });
+  fireEvent.change(screen.getByLabelText('Descrição da ocorrência *'), { target: { value: 'Exemplo fictício de teste.' } });
+  fireEvent.click(screen.getByRole('button', { name: /Registrar denúncia demonstrativa/ }));
+  expect(screen.getByText('Bairro fictício, São Paulo, SP')).toBeTruthy();
+  expect(screen.getByRole('img', { name: 'Imagem de referência da espécie' })).toBeTruthy();
+});

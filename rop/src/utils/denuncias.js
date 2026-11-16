@@ -65,3 +65,26 @@ export function avancarChamado(chamado, encerramento = '') {
     historico: [...chamado.historico, { estado: encerramento || ETAPAS[etapa], data: new Date().toISOString() }]
   };
 }
+
+export function coordenadasDaPosicao(posicao, modo) {
+  const casas = modo === 'aproximada' ? 2 : 5;
+  const { latitude, longitude, accuracy } = posicao.coords;
+  return {
+    latitude: Number(latitude.toFixed(casas)),
+    longitude: Number(longitude.toFixed(casas)),
+    precisao: modo === 'aproximada' ? Math.max(1500, Math.ceil(accuracy)) : Math.max(1, Math.ceil(accuracy))
+  };
+}
+
+export function formatarLocalizacao(localizacao) {
+  if (!localizacao) return '';
+  if (localizacao.modo === 'bairro') {
+    const partes = [localizacao.bairro, localizacao.cidade, localizacao.uf].map((parte) => (parte || '').trim());
+    return partes.every(Boolean) ? partes.join(', ') : '';
+  }
+  const coordenadas = localizacao.coordenadas;
+  if (!coordenadas) return '';
+  const { latitude, longitude } = coordenadas;
+  const casas = localizacao.modo === 'aproximada' ? 2 : 5;
+  return `${localizacao.modo === 'aproximada' ? 'Localização aproximada' : 'Localização GPS'}: ${latitude.toFixed(casas)}, ${longitude.toFixed(casas)}`;
+}

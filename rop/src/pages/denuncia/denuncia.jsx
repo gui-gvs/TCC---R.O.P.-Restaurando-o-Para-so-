@@ -4,12 +4,13 @@ import Cabecalho from '../../componentes/cabecalho/cabecalho.jsx';
 import Rodape from '../../componentes/rodape/rodape.jsx';
 import {
   ETAPAS, ENCERRAMENTOS, statusChamado, finalizado, creditoChamado,
-  lerDenuncias, salvarDenuncias, resumoDenuncias, criarChamado, avancarChamado
+  lerDenuncias, salvarDenuncias, resumoDenuncias, criarChamado, avancarChamado, formatarLocalizacao
 } from '../../utils/denuncias.js';
+import { CampoLocalizacao, CampoEspecie, LOCALIZACAO_INICIAL } from './camposDenuncia.jsx';
 import './denuncia.scss';
 
 const API_URL = (process.env.REACT_APP_API_URL || 'http://localhost:5050').replace(/\/+$/, '');
-const INICIAL = { especie: '', local: '', condicao: '', descricao: '', foto: '', acompanhar: true };
+const INICIAL = { especie: '', especieId: '', especieImagem: '', localizacao: LOCALIZACAO_INICIAL, condicao: '', descricao: '', foto: '', acompanhar: true };
 const CONDICOES = ['Ferido', 'Debilitado', 'Preso ou em risco', 'Filhote aparentemente abandonado', 'Suspeita de maus-tratos', 'Outro / Não identificado'];
 const formatarData = (valor) => new Date(valor).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
 
@@ -50,8 +51,8 @@ function LinhaDoTempo({ chamado, atualizar }) {
         <span className="denuncia-status">{statusChamado(chamado)}</span>
       </div>
       <div className="denuncia-animal">
-        {chamado.foto && <img src={chamado.foto} alt="Animal da denúncia demonstrativa" />}
-        <div><h3>{chamado.especie || 'Espécie não identificada'}</h3><p>{chamado.local}</p><small>{chamado.condicao} · {formatarData(chamado.criadoEm)}</small><p>{chamado.descricao}</p></div>
+        {(chamado.foto || chamado.especieImagem) && <img src={chamado.foto || chamado.especieImagem} alt={chamado.foto ? "Foto da ocorrência" : "Imagem de referência da espécie"} />}
+        <div><h3>{chamado.especie || 'Espécie não identificada'}</h3><p>{chamado.local}</p>{!chamado.foto && chamado.especieImagem && <small>Imagem de referência do catálogo, não da ocorrência.</small>}<small>{chamado.condicao} · {formatarData(chamado.criadoEm)}</small><p>{chamado.descricao}</p></div>
       </div>
       <p className="denuncia-credito-linha">Crédito deste chamado: <strong>{saldo > 0 ? '+' : ''}{saldo}</strong> · {chamado.validacao === 'confirmada' ? 'Confirmada (simulação)' : chamado.validacao === 'falsa' ? 'Fraude intencional (simulação)' : chamado.validacao === 'inconclusiva' ? 'Inconclusiva, sem penalidade' : 'Aguardando validação'}</p>
       <ol className="denuncia-linha">
@@ -153,10 +154,14 @@ export default function Denuncia() {
 
   function registrar(e) {
     e.preventDefault();
-    if (!form.local.trim() || !form.descricao.trim() || !form.condicao) {
+    const local = formatarLocalizacao(form.localizacao);
+    if (!local || !form.descricao.trim() || !form.condicao) {
       setErro('Preencha a localidade, o estado do animal e a descrição.'); return;
     }
-    const novo = criarChamado({ ...form, local: form.local.trim(), especie: form.especie.trim(), descricao: form.descricao.trim() });
+    const localizacao = form.localizacao.modo === 'bairro'
+      ? { modo: 'bairro', bairro: form.localizacao.bairro.trim(), cidade: form.localizacao.cidade.trim(), uf: form.localizacao.uf }
+      : { modo: form.localizacao.modo, coordenadas: form.localizacao.coordenadas };
+    const novo = criarChamado({ ...form, local, localizacao, especie: form.especie.trim(), descricao: form.descricao.trim() });
     if (persistir([novo, ...lista])) {
       setForm(INICIAL);
       setSelecionado(form.acompanhar ? novo.id : '');
@@ -198,7 +203,7 @@ export default function Denuncia() {
             <div><span className="denuncia-eyebrow">PROTEÇÃO DA FAUNA / R.O.P.</span><h1>Denunciar é proteger.</h1><p>Registre uma situação de risco, acompanhe o chamado e conheça cada etapa do cuidado com o animal.</p><Link className="denuncia-link" to="/orientacoes">Como fazer uma denúncia segura →</Link></div>
             <img src="/assets/img/pages/especies/aves/tucano-toco.webp" alt="Tucano-toco na natureza" />
           </header>
-          <aside className="denuncia-alerta"><strong>Projeto acadêmico · modo demonstrativo</strong><p>O R.O.P. não realiza resgates nem encaminha denúncias. Use somente dados e fotos fictícios. Em uma ocorrência real, mantenha distância e procure os órgãos ambientais ou serviços de resgate autorizados. Os dados desta demonstração ficam na sessão deste navegador.</p></aside>
+          <aside className="denuncia-alerta"><strong>Projeto acadêmico · modo demonstrativo</strong><p>O R.O.P. não realiza resgates nem encaminha denúncias. Use dados e fotos fictícios na apresentação. Se testar o GPS, a localização ficará apenas nesta sessão. Em uma ocorrência real, mantenha distância e procure os órgãos ambientais ou serviços de resgate autorizados. Os dados desta demonstração ficam na sessão deste navegador.</p></aside>
           {autenticando ? <p role="status">Verificando sua conta…</p> : !usuario ? (
             <section className="denuncia-card denuncia-login"><h2>Entre para registrar e acompanhar</h2><p>As denúncias e os créditos demonstrativos ficam vinculados à sua conta nesta sessão.</p>{erroSessao && <p role="alert">{erroSessao}</p>}<Link className="denuncia-btn" to="/" state={{ retornoDenuncia: true }}>Fazer login</Link> <Link className="denuncia-link" to="/registro">Criar conta</Link></section>
           ) : <>
@@ -216,8 +221,8 @@ export default function Denuncia() {
             {aba === 'nova' && <div className="denuncia-grid">
               <form className="denuncia-card denuncia-form" onSubmit={registrar}>
                 <h2>Novo chamado</h2><p>Preencha os dados da ocorrência. Não se aproxime do animal para obter fotos.</p>
-                <label>Localidade *<input required maxLength={180} value={form.local} onChange={(e) => campo('local', e.target.value)} placeholder="Ex.: bairro fictício, cidade, UF" /></label>
-                <label>Espécie do animal (opcional)<input maxLength={100} value={form.especie} onChange={(e) => campo('especie', e.target.value)} placeholder="Ex.: tucano" /></label>
+                <CampoLocalizacao valor={form.localizacao} onChange={(valor) => campo('localizacao', valor)} />
+                <CampoEspecie nome={form.especie} id={form.especieId} onChange={(campos) => setForm((atual) => ({ ...atual, ...campos }))} />
                 <label>Estado do animal *<select required value={form.condicao} onChange={(e) => campo('condicao', e.target.value)}><option value="">Selecione a condição</option>{CONDICOES.map((condicao) => <option key={condicao}>{condicao}</option>)}</select></label>
                 <label>Descrição da ocorrência *<textarea required maxLength={1200} rows={4} value={form.descricao} onChange={(e) => campo('descricao', e.target.value)} placeholder="Descreva o que observou." /></label>
                 <label>Foto do animal (opcional)<input type="file" accept="image/jpeg,image/png,image/webp" onChange={escolherFoto} disabled={preparando} /><small>JPG, PNG ou WebP · até 5 MB</small></label>
@@ -230,7 +235,7 @@ export default function Denuncia() {
             {aba === 'historico' && <section className="denuncia-card">
               <div className="denuncia-card-topo"><h2>Histórico de denúncias</h2><button type="button" className="denuncia-btn secundaria" onClick={() => setAba('nova')}>+ Nova denúncia</button></div>
               <div className="denuncia-filtros"><label>Buscar chamado<input value={busca} onChange={(e) => setBusca(e.target.value)} placeholder="Protocolo, animal ou localidade" /></label><label>Estado do chamado<select value={filtro} onChange={(e) => setFiltro(e.target.value)}><option value="todos">Todos</option><option value="ativos">Em andamento</option><option value="encerrados">Encerrados</option>{[...ETAPAS, ...ENCERRAMENTOS].map((estado) => <option key={estado}>{estado}</option>)}</select></label></div>
-              {resultados.length ? <div className="denuncia-historico">{resultados.map((item) => <article key={item.id}><div>{item.foto && <img src={item.foto} alt="" />}</div><div><small>{item.id}</small><h3>{item.especie || 'Animal não identificado'}</h3><p>{item.local}</p><small>{formatarData(item.criadoEm)} · Crédito: {creditoChamado(item) > 0 ? '+' : ''}{creditoChamado(item)}</small></div><div className="denuncia-historico-acoes"><span className="denuncia-status">{statusChamado(item)}</span><button type="button" className="denuncia-btn secundaria" onClick={() => abrir(item)}>Ver chamado →</button></div></article>)}</div> : <p className="denuncia-vazio">Nenhum chamado encontrado.</p>}
+              {resultados.length ? <div className="denuncia-historico">{resultados.map((item) => <article key={item.id}><div>{(item.foto || item.especieImagem) && <img src={item.foto || item.especieImagem} alt={item.foto ? "Foto da ocorrência" : "Imagem de referência"} />}</div><div><small>{item.id}</small><h3>{item.especie || 'Animal não identificado'}</h3><p>{item.local}</p><small>{formatarData(item.criadoEm)} · Crédito: {creditoChamado(item) > 0 ? '+' : ''}{creditoChamado(item)}</small></div><div className="denuncia-historico-acoes"><span className="denuncia-status">{statusChamado(item)}</span><button type="button" className="denuncia-btn secundaria" onClick={() => abrir(item)}>Ver chamado →</button></div></article>)}</div> : <p className="denuncia-vazio">Nenhum chamado encontrado.</p>}
             </section>}
             {aba === 'acompanhar' && <><label className="denuncia-seletor">Escolha um chamado<select value={selecionado} onChange={(e) => setSelecionado(e.target.value)}><option value="">Selecione uma denúncia</option>{lista.map((item) => <option key={item.id} value={item.id}>{item.id} — {item.especie || 'Animal não identificado'}</option>)}</select></label>{chamado ? <LinhaDoTempo key={chamado.id} chamado={chamado} atualizar={atualizar} /> : <div className="denuncia-card denuncia-login"><h2>Acompanhe seu animal</h2><p>Selecione um chamado ou registre uma nova denúncia demonstrativa.</p><button className="denuncia-btn" type="button" onClick={() => setAba('nova')}>Nova denúncia</button></div>}</>}
           </>}
