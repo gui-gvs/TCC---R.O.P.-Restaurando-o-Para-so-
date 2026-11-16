@@ -159,7 +159,7 @@ export default function Denuncia() {
       setErro('Preencha a localidade, o estado do animal e a descrição.'); return;
     }
     const localizacao = form.localizacao.modo === 'bairro'
-      ? { modo: 'bairro', bairro: form.localizacao.bairro.trim(), cidade: form.localizacao.cidade.trim(), rua: form.localizacao.rua.trim() }
+      ? { modo: 'bairro', bairro: form.localizacao.bairro.trim(), rua: form.localizacao.rua.trim() }
       : { modo: form.localizacao.modo, coordenadas: form.localizacao.coordenadas };
     const novo = criarChamado({ ...form, local, localizacao, detalhesLocal: form.detalhesLocal.trim(), especie: form.especie.trim(), descricao: form.descricao.trim() });
     if (persistir([novo, ...lista])) {
