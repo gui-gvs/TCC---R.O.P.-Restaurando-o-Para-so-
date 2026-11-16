@@ -424,11 +424,16 @@ body {
   }
 }
 
-.comp-cabecalho .comp-denuncia {
-  font-weight: 700;
+.comp-cabecalho .comp-link--ativo {
   color: #f5bb64;
+
+  &::after {
+    transform: scaleX(1);
+  }
 }
 
-html[data-rop-theme="light"] .comp-cabecalho .comp-denuncia {
-  color: #745015;
+.comp-cabecalho .comp-doe--ativo {
+  border-color: #74bbff;
+  background: rgba(26, 127, 224, 0.24);
+  color: #a4d3ff;
 }

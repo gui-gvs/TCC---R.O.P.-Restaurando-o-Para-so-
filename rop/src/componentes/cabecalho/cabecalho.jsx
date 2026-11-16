@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PerfilUsuario from "../perfilUsuario/perfilUsuario.jsx";
 import BotaoTema from "../botaoTema/BotaoTema.jsx";
 import { HashLink } from "react-router-hash-link";
@@ -8,6 +8,22 @@ import "./cabecalho.scss";
 
 function Cabecalho() {
   const [rolou, setRolou] = useState(false);
+  const { pathname, hash } = useLocation();
+
+  function linkAtivo(destino) {
+    const [caminho, secao] = destino.split("#");
+    if (pathname !== caminho) return false;
+    if (secao) return hash === `#${secao}`;
+    return caminho !== "/inicio" || !["#impactos", "#projetos", "#apadrinhe"].includes(hash);
+  }
+
+  function propsLink(destino) {
+    const ativo = linkAtivo(destino);
+    return {
+      className: `comp-link${ativo ? " comp-link--ativo" : ""}`,
+      "aria-current": ativo ? (destino.includes("#") ? "location" : "page") : undefined,
+    };
+  }
 
   useEffect(() => {
     function aoRolar() {
@@ -46,30 +62,30 @@ function Cabecalho() {
             className="comp-botoes"
             aria-label="Navegação principal"
           >
-            <Link to="/inicio" className="comp-link">
+            <Link to="/inicio" {...propsLink("/inicio")}>
               Início
             </Link>
 
-            <Link to="/especies" className="comp-link">
+            <Link to="/especies" {...propsLink("/especies")}>
               Espécies
             </Link>
 
-            <Link to="/orientacoes" className="comp-link">
+            <Link to="/orientacoes" {...propsLink("/orientacoes")}>
               Orientações
             </Link>
 
-            <Link to="/denuncia" className="comp-link comp-denuncia">
+            <Link to="/denuncia" {...propsLink("/denuncia")}>
               Denunciar
             </Link>
 
-            <Link to="/noticias" className="comp-link">
+            <Link to="/noticias" {...propsLink("/noticias")}>
               Notícias
             </Link>
 
             <HashLink
               smooth
               to="/inicio#impactos"
-              className="comp-link"
+              {...propsLink("/inicio#impactos")}
             >
               Impactos
             </HashLink>
@@ -77,7 +93,7 @@ function Cabecalho() {
             <HashLink
               smooth
               to="/inicio#projetos"
-              className="comp-link"
+              {...propsLink("/inicio#projetos")}
             >
               Projetos
             </HashLink>
@@ -85,12 +101,12 @@ function Cabecalho() {
             <HashLink
               smooth
               to="/inicio#apadrinhe"
-              className="comp-link"
+              {...propsLink("/inicio#apadrinhe")}
             >
               Apadrinhe
             </HashLink>
 
-            <Link to="/loja" className="comp-link">
+            <Link to="/loja" {...propsLink("/loja")}>
               Loja
             </Link>
           </nav>
@@ -100,7 +116,7 @@ function Cabecalho() {
     <PerfilUsuario />
 
             <div className="comp-doe-div">
-              <Link to="/doe" className="comp-doe">
+              <Link to="/doe" className={`comp-doe${linkAtivo("/doe") ? " comp-doe--ativo" : ""}`} aria-current={linkAtivo("/doe") ? "page" : undefined}>
                 <img
                   src="/assets/img/componentes/cabecalho/coracao.png"
                   alt=""

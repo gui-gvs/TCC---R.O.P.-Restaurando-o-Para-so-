@@ -29,6 +29,8 @@ html[data-rop-theme="light"] {
   .comp-cabecalho .comp-link { color: #244239; }
   .comp-cabecalho .comp-logo img { filter: none; }
   .comp-cabecalho .comp-link:hover { color: #09552b; }
+  .comp-cabecalho .comp-link--ativo { color: #745015; }
+  .comp-cabecalho .comp-link--ativo::after { background: #986300; }
   .comp-cabecalho .comp-aviso {
     background: #edf3df;
     border-bottom-color: #d6dfb2;
@@ -36,6 +38,7 @@ html[data-rop-theme="light"] {
   }
   .comp-cabecalho .comp-aviso b { color: #274c24; }
   .comp-cabecalho .comp-doe { background: #f8df98; border-color: #d6ad45; color: #2d2a12; }
+  .comp-cabecalho .comp-doe--ativo { background: #eec66b; border-color: #986300; }
   .comp-cabecalho .comp-doe .icone-coracao { filter: brightness(0) saturate(100%) invert(15%) sepia(11%) saturate(1995%) hue-rotate(99deg) brightness(97%) contrast(93%); }
   .perfil-botao { color: #42613a; border-color: #b9cca9; background: #f5f7e9; }
   .perfil-botao:hover { background: #edf4d9; }
