@@ -9,6 +9,7 @@ const ROTAS = {
   orientacoes: "/orientacoes",
   projetos: "/inicio#projetos",
   publicacoes: "/noticias",
+  denuncia: "/denuncia",
   apadrinhe: "/inicio#apadrinhe",
   doe: "/doe",
   loja: "/loja",
@@ -108,6 +109,9 @@ export default function Rodape() {
               <h2 className="coluna-titulo">Navegação</h2>
               <ul className="lista-links">
                 <li>
+                  <Link to={ROTAS.impactos} onClick={irParaTopo}>Impactos</Link>
+                </li>
+                <li>
                   <Link to={ROTAS.inicio} onClick={irParaTopo}>Início</Link>
                 </li>
                 <li>
@@ -115,6 +119,9 @@ export default function Rodape() {
                 </li>
                 <li>
                   <Link to={ROTAS.projetos} onClick={irParaTopo}>Projetos</Link>
+                </li>
+                 <li>
+                  <Link to={ROTAS.denuncia} onClick={irParaTopo}>Denuncie</Link>
                 </li>
                 <li>
                   <Link to={ROTAS.publicacoes} onClick={irParaTopo}>Publicações</Link>
