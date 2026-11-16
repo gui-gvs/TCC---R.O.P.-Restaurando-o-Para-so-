@@ -6,6 +6,7 @@ import Transicoes from "./componentes/transicoes/Transicoes.jsx";
 
 import App from "./pages/APP/app.jsx";
 import Doe from "./pages/doe/doe.jsx";
+import Denuncia from "./pages/denuncia/denuncia.jsx";
 import Especies from "./pages/especies/especies.jsx";
 import Orientacoes from "./pages/orientacoes/orientacoes.jsx";
 import Inicio from "./pages/inicio/inicio.jsx";
@@ -39,6 +40,7 @@ root.render(
       <Route path="/noticias" element={<Noticias />} />
       <Route path="/loja" element={<Loja />} />
       <Route path="/doe" element={<Doe />} />
+      <Route path="/denuncia" element={<Denuncia />} />
       <Route
         path="/esqueci-senha"
         element={<EsqueciSenha />}

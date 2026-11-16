@@ -279,7 +279,7 @@ body {
 }
 
 // Tablet e celular: links em uma segunda linha.
-@media (max-width: 1100px) {
+@media (max-width: 1250px) {
   :root {
     --cab-altura-total: 136px;
   }
@@ -409,7 +409,7 @@ body {
 
 
 /* Ajusta o espaçamento do menu com o novo link Orientações. */
-@media (min-width: 1101px) and (max-width: 1400px) {
+@media (min-width: 1251px) and (max-width: 1400px) {
   .comp-cabecalho .comp-corpo {
     gap: 12px;
     padding-inline: 18px;
@@ -422,4 +422,13 @@ body {
   .comp-cabecalho .comp-link {
     font-size: 0.77rem;
   }
+}
+
+.comp-cabecalho .comp-denuncia {
+  font-weight: 700;
+  color: #f5bb64;
+}
+
+html[data-rop-theme="light"] .comp-cabecalho .comp-denuncia {
+  color: #745015;
 }

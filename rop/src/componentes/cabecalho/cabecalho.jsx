@@ -58,6 +58,10 @@ function Cabecalho() {
               Orientações
             </Link>
 
+            <Link to="/denuncia" className="comp-link comp-denuncia">
+              Denunciar
+            </Link>
+
             <Link to="/noticias" className="comp-link">
               Notícias
             </Link>

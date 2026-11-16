@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import './login.scss'
 
 const ASSETS = `${process.env.PUBLIC_URL || ''}/assets/img`
@@ -54,6 +54,7 @@ function Icone({ tipo }) {
 
 export default function Login() {
     const navigate = useNavigate()
+    const location = useLocation()
 
     const [email, setEmail] = useState('')
     const [senha, setSenha] = useState('')
@@ -97,7 +98,7 @@ export default function Login() {
                 return
             }
 
-            navigate('/inicio', { replace: true })
+            navigate(location.state?.retornoDenuncia ? '/denuncia' : '/inicio', { replace: true })
         } catch {
             setErro('Não foi possível conectar à API. Confira se ela está rodando.')
         } finally {

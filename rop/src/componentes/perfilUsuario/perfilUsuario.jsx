@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import './perfilUsuario.scss';
 import { ANIMAIS_TESTE } from '../../pages/especies/dadosEspecies.js';
 import { consultarFavoritos, definirFavorito, identificarFavorito } from '../../utils/favoritos.js';
+import { lerDenuncias, resumoDenuncias } from '../../utils/denuncias.js';
 
 const FOTOS_POR_NOME = new Map(ANIMAIS_TESTE.map((a) => [a.nome_cientifico, a.imagem]));
 
@@ -100,6 +101,7 @@ export default function PerfilUsuario() {
   const [carregandoFavoritos, setCarregandoFavoritos] = useState(false);
   const [erroFavoritos, setErroFavoritos] = useState('');
   const [removendoFavorito, setRemovendoFavorito] = useState('');
+  const [resumoChamados, setResumoChamados] = useState(() => resumoDenuncias([]));
 
   const arquivoRef = useRef(null);
   const fecharRef = useRef(null);
@@ -224,6 +226,16 @@ export default function PerfilUsuario() {
     setEditarNome(false);
     setEditarAniversario(false);
   }
+
+  useEffect(() => {
+    if (!usuario || !aberto) return;
+    function carregarResumo() {
+      setResumoChamados(resumoDenuncias(lerDenuncias(usuario.id_usuario)));
+    }
+    carregarResumo();
+    window.addEventListener('rop:denuncias', carregarResumo);
+    return () => window.removeEventListener('rop:denuncias', carregarResumo);
+  }, [usuario, aberto]);
 
   async function atualizarPerfil(campos, sucesso) {
     const token = sessionStorage.getItem('rop_token');
@@ -540,9 +552,25 @@ export default function PerfilUsuario() {
                 </Link>
               </section>
 
-              <section className="perfil-secao perfil-secao-seguranca" aria-label="Segurança da conta">
+              <section className="perfil-secao" aria-label="Minhas denúncias">
                 <div className="perfil-secao-titulo">
                   <span aria-hidden="true">03</span>
+                  <h3>Minhas denúncias</h3>
+                </div>
+                <div className="perfil-dados">
+                  <div className="perfil-item"><div><small>Créditos de confiabilidade (demo)</small><strong>{resumoChamados.creditos}</strong></div></div>
+                  <div className="perfil-item"><div><small>Chamados registrados</small><strong>{resumoChamados.total}</strong></div></div>
+                  <div className="perfil-item"><div><small>Confirmadas / falsas intencionais</small><strong>{resumoChamados.confirmadas} / {resumoChamados.falsas}</strong></div></div>
+                </div>
+                <p className="perfil-nota">Dados demonstrativos desta sessão, não uma avaliação real.</p>
+                <Link to="/denuncia?aba=historico" className="perfil-favoritos-explorar" onClick={fecharPerfil}>
+                  Acompanhar denúncias <span aria-hidden="true">→</span>
+                </Link>
+              </section>
+
+              <section className="perfil-secao perfil-secao-seguranca" aria-label="Segurança da conta">
+                <div className="perfil-secao-titulo">
+                  <span aria-hidden="true">04</span>
                   <h3>Segurança da conta</h3>
                 </div>
                 <Link className="perfil-seguranca" to="/esqueci-senha" onClick={fecharPerfil}>
